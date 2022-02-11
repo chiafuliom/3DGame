@@ -4,48 +4,69 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class PlayerController : MonoBehaviour {
+public class PlayerRed : MonoBehaviour
+{
 
-	public GameObject bullet;
-	[SerializeField]
-	Vector3 v3Force;
-	[SerializeField]
-	Vector3 startPos;
-	[SerializeField]
-	KeyCode keypos;
-	[SerializeField]
-	KeyCode keyneg;
-	public int Score;
-	public Text ScoreText;
-	public GameObject opponent;
+    //public GameObject bullet;
+    [SerializeField]
+    Vector3 v3Force;
+    [SerializeField]
+    Vector3 v3Force2;
+    [SerializeField]
+    Vector3 startPos;
+    [SerializeField]
+    Vector3 oppstartPos;
+    [SerializeField]
+    KeyCode keypos;
+    [SerializeField]
+    KeyCode keyneg;
+    [SerializeField]
+    KeyCode keypos2;
+    [SerializeField]
+    KeyCode keyneg2;
+    public int Score;
+    public Text ScoreText;
+    public GameObject opponent;
 
-	void Awake(){
-		startPos = transform.position;
-	}
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-		if (Input.GetKey(keypos))
-		GetComponent<Rigidbody> ().velocity += v3Force;
-		if (Input.GetKey(keyneg))
-			GetComponent<Rigidbody> ().velocity -= v3Force;
+    void Awake()
+    {
+        startPos = transform.position;
+        oppstartPos = opponent.transform.position;
+        ScoreText.text = "0";
+    }
+    // Use this for initialization
+    void Start()
+    {
 
-	}
+    }
 
-	void OnCollisionEnter(Collision col){
-		if (col.gameObject.name == "Ground") {
-			transform.position = startPos;
-			Score++;
-			ScoreText.text = "Score: "+ Score.ToString ();
-			if (Score == 5) {
-				ScoreText.text = "YOU WIN";
-				Destroy (gameObject);
-				Destroy (opponent);
-			}
-		}
-	}
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (Input.GetKey(keypos))
+            GetComponent<Rigidbody>().velocity += v3Force;
+        if (Input.GetKey(keyneg))
+            GetComponent<Rigidbody>().velocity -= v3Force;
+        if (Input.GetKey(keypos2))
+            GetComponent<Rigidbody>().velocity += v3Force2;
+        if (Input.GetKey(keyneg2))
+            GetComponent<Rigidbody>().velocity -= v3Force2;
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.name == "Ground")
+        {
+            transform.position = startPos;
+            opponent.transform.position = oppstartPos;
+            Score++;
+            ScoreText.text = Score.ToString();
+            if (Score == 3)
+            {
+                ScoreText.text = "YOU WIN";
+                Destroy(gameObject);
+                Destroy(opponent);
+            }
+        }
+    }
 }
